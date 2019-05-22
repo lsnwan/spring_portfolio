@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyeontae.mapper.MessageMapper">
+	
+	<select id="selectUser" resultType="string">
+		select nickname from User where nickname = #{nickname}
+	</select>
+
+	<select id="noReadToSize" resultType="int">
+		select count(if(readnum=1, readnum, null)) as total from message where touser = #{nickname} and fromuser != #{nickname} and 
+		
+		<trim prefix="(" suffix=") and" prefixOverrides="OR">
+			
+			<foreach item="val" index="key" collection="map">
+				<trim prefix="OR">
+					<choose>
+						<when test="key == 'N'.toString()">
+							fromuser like concat('%', #{val}, '%')
+						</when>
+						<when test="key == 'C'.toString()">
+							content like concat('%', #{val}, '%')
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+		
+		toavailable = 1	
+	</select>
+
+	<select id="getToSize" resultType="int">
+		select count(no) 
+		from message where touser=#{nickname} and fromuser != #{nickname} and
+		
+		<trim prefix="(" suffix=") and" prefixOverrides="OR">
+			
+			<foreach item="val" index="key" collection="map">
+				<trim prefix="OR">
+					<choose>
+						<when test="key == 'N'.toString()">
+							fromuser like concat('%', #{val}, '%')
+						</when>
+						<when test="key == 'C'.toString()">
+							content like concat('%', #{val}, '%')
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+		
+		toavailable = 1
+	</select>
+
+	<select id="getToList" resultType="com.hyeontae.vo.MessageVO" parameterType="Map">
+		
+		select * from message 
+		where touser=#{nickname} and fromuser != #{nickname} and 
+		
+		<trim prefix="(" suffix=") and" prefixOverrides="OR">
+			
+			<foreach item="val" index="key" collection="map">
+				<trim prefix="OR">
+					<choose>
+						<when test="key == 'N'.toString()">
+							fromuser like concat('%', #{val}, '%')
+						</when>
+						<when test="key == 'C'.toString()">
+							content like concat('%', #{val}, '%')
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+		 
+		toavailable = 1 order by no desc limit #{pagenum}, #{contentnum}
+		
+	</select>
+	
+	
+	<select id="getFromList" resultType="com.hyeontae.vo.MessageVO" parameterType="Map">
+		select * from message 
+		where touser != #{nickname} and fromuser = #{nickname} and 
+		
+		<trim prefix="(" suffix=") and" prefixOverrides="OR">
+			
+			<foreach item="val" index="key" collection="map">
+				<trim prefix="OR">
+					<choose>
+						<when test="key == 'N'.toString()">
+							touser like concat('%', #{val}, '%')
+						</when>
+						<when test="key == 'C'.toString()">
+							content like concat('%', #{val}, '%')
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+		 
+		fromavailable = 1 order by no desc limit #{pagenum}, #{contentnum}
+	</select>
+	
+	<select id="getFromSize" resultType="int">
+		
+		select count(no) 
+		from message where touser != #{nickname} and fromuser = #{nickname} and
+		
+		<trim prefix="(" suffix=") and" prefixOverrides="OR">
+			
+			<foreach item="val" index="key" collection="map">
+				<trim prefix="OR">
+					<choose>
+						<when test="key == 'N'.toString()">
+							touser like concat('%', #{val}, '%')
+						</when>
+						<when test="key == 'C'.toString()">
+							content like concat('%', #{val}, '%')
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+		
+		fromavailable = 1
+		
+	</select>
+	
+	<select id="getToMeSize" resultType="int">
+		select count(no) 
+		from message where touser=#{nickname} and fromuser = #{nickname} and
+		
+		<trim prefix="(" suffix=") and" prefixOverrides="OR">
+			
+			<foreach item="val" index="key" collection="map">
+				<trim prefix="OR">
+					<choose>
+						<when test="key == 'N'.toString()">
+							touser like concat('%', #{val}, '%')
+						</when>
+						<when test="key == 'C'.toString()">
+							content like concat('%', #{val}, '%')
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+		
+		toavailable = 1
+	</select>
+	
+	<select id="getToMeList" resultType="com.hyeontae.vo.MessageVO" parameterType="Map">
+		select * from message 
+		where touser=#{nickname} and fromuser = #{nickname} and 
+		
+		<trim prefix="(" suffix=") and" prefixOverrides="OR">
+			
+			<foreach item="val" index="key" collection="map">
+				<trim prefix="OR">
+					<choose>
+						<when test="key == 'C'.toString()">
+							content like concat('%', #{val}, '%')
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+		 
+		toavailable = 1 order by no desc limit #{pagenum}, #{contentnum}
+	</select>
+	
+	
+	<select id="getMessage" resultType="com.hyeontae.vo.MessageVO">
+		select * from message where no = #{no}
+	</select>
+	
+	
+</mapper>

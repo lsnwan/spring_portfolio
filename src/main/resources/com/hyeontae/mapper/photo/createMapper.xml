@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyeontae.mapper.PhotoMapper">
+	
+	<select id="select_photoNum" resultType="integer">
+		select max(num) from board_photo
+	</select>
+	
+	<select id="getSize" resultType="int">
+		select count(num) from board_photo
+	</select>
+	
+	<insert id="create_photo">
+		insert into board_photo values(#{num}, #{nickname}, #{title}, #{content}, now(), 0, 1)
+	</insert>
+	
+	<insert id="create_profile">
+		insert into board_photo_profile values(#{num}, #{userid}, #{profile})
+	</insert>
+	
+	<insert id="create_thum">
+		insert into board_photo_thum values(#{num}, #{nickname}, #{filename})
+	</insert>
+	
+</mapper>

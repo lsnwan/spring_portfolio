@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyeontae.mapper.PhotoReplyAndReplyMapper">
+	
+	<select id="totalCount" resultType="integer">
+		select count(r_no) from photo_reply_reply where num = #{num} and no = #{no}
+	</select>
+	
+	<select id="getList" resultType="com.hyeontae.vo.PhotoReplyAndReplyVO"> 
+		select reply.num, reply.no, reply.r_no, reply.nickname, reply.content, reply.regdate, reply.available, profile.userid, profile.profile
+		from photo_reply_reply reply, photo_reply_reply_profile profile 
+		where reply.r_no = profile.r_no and reply.num = #{num} and reply.no = #{no} order by r_no desc limit #{cri.pageNum}, #{cri.amount}
+	</select>
+	
+	<select id="getReply" resultType="com.hyeontae.vo.PhotoReplyAndReplyVO">
+		select reply.num, reply.no, reply.r_no, reply.nickname, reply.content, reply.regdate, reply.available, profile.userid, profile.profile
+		from photo_reply_reply reply, photo_reply_reply_profile profile 
+		where reply.r_no = profile.r_no and reply.r_no = #{r_no}
+	</select>
+	
+</mapper>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyeontae.mapper.PhotoReplyAndReplyMapper">
+	
+	<update id="delete_reply">
+		update photo_reply_reply set available = 0 where r_no = #{r_no}
+	</update>
+	
+</mapper>

@@ -1,0 +1,436 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic&subset=korean');
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+
+html, body {
+	margin:0;
+	padding:0;
+	height:100%;
+	
+	font-family: 'Nanum Gothic', sans-serif;
+	
+	background-color: #f3f3f3;
+}
+
+a, a:hover {
+	text-decoration: none;
+	color: black;
+}
+
+.wrap {
+	position:relative;
+	min-height:100%;
+}
+
+.content {
+	margin-top:70px;
+	padding-bottom:100px; /*footer height*/
+}
+
+.content .container {
+	padding: 20px;
+	height: 100%;
+}
+
+.footer {
+	width:100%;
+	height:100px;
+	position:absolute;
+	bottom:0;
+	left:0;
+    background-color: #343A40;
+    color: white;
+	text-align: center;
+	
+}
+
+.footer table {
+	width: 100%;
+	text-align: center;
+	vertical-align: middle;
+	height: 100px;
+}
+
+.nav-link {
+	color: black;
+	font-weight: bold;
+	
+}
+
+input[id="menuicon"] {
+	display: none;
+}
+
+input[id="menuicon"] + label {
+	display: block;
+	top: 4px;
+	width: 32px;
+	height: 22px;
+	position: relative;
+	cursor: pointer;
+}
+
+input[id="menuicon"] + label span {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 2px;
+	border-radius: 30px;
+	background: #000;
+	transition:all .35s;
+}
+
+input[id="menuicon"] + label span:nth-child(1) {
+	top:0;
+}
+input[id="menuicon"] + label span:nth-child(2) {
+	top:50%;
+	transform:translateY(-50%);		
+}
+input[id="menuicon"] + label span:nth-child(3) {
+	bottom:0;
+}
+
+input[id="menuicon"]:checked + label span:nth-child(1) {
+	top:50%;
+	transform:translateY(-50%) rotate(45deg);
+}
+
+input[id="menuicon"]:checked + label span:nth-child(2) {
+	opacity: 0;
+}
+
+input[id="menuicon"]:checked + label span:nth-child(3) {
+	bottom: 50%;
+	transform: translateY(50%) rotate(-45deg);
+}
+
+.index_board_title {
+	text-align: left;
+	width:180px;
+    padding:0 5px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+/*======================================================================*/
+
+/* 416px 이상일 때 */
+@media (min-width: 416px) {
+	
+	
+}
+
+
+/* 576px 이상일 때 */
+@media (min-width: 576px) {
+	.userUpdateName {
+		text-align: center;
+	}
+	
+	.userUpdateEmail {
+		text-align: center;
+		margin-top: 5px;	
+	}
+	
+}
+
+/* 768px 이상일 때 */
+@media (min-width: 768px) {
+	
+	input[id="menuicon"] + label {
+		display: none;
+	}
+	
+	.login_form {
+		width: 500px;
+		margin: 0 auto;
+	}
+	
+	.navbar-dark {
+		height: 55px;
+	}
+	
+	.accessErrorMsg {
+		font-size: 25px;
+		margin-top: 10px;
+	}
+	
+	.cardMobile {
+		display: none;
+	}
+	
+	.titleCss {
+		display: inline-block; 
+		width: 350px; 
+		white-space: nowrap; 
+		overflow: hidden; 
+		text-overflow: ellipsis;
+	}
+	
+	.photo_title p {
+		display: inline-block; 
+		width: 100px; 
+		white-space: nowrap; 
+		overflow: hidden; 
+		text-overflow: ellipsis;
+	}
+	
+	.messageText {
+		display: inline-block; 
+		width: 400px; 
+		white-space: nowrap; 
+		overflow: hidden; 
+		text-overflow: ellipsis;
+	}
+	
+	
+	
+}
+
+/* 992px 이상일 때 */
+@media (min-width: 992px) {
+	.photo_title p {
+		display: inline-block; 
+		width: 150px; 
+		white-space: nowrap; 
+		overflow: hidden; 
+		text-overflow: ellipsis;
+	}
+	
+	
+}
+
+/* 1200px 이상일 때 */
+@media (min-width: 1200px) {
+	.photo_title p {
+		display: inline-block; 
+		width: 200px; 
+		white-space: nowrap; 
+		overflow: hidden; 
+		text-overflow: ellipsis;
+	}
+	
+	.thead-light {
+		text-align: center;
+	}
+	
+	.messageText {
+		text-align: left;
+	}
+	
+	.messageFromuser {
+		width: 100px;
+	}
+	
+	
+	.sendTableProper tr th:nth-child(1) {
+		width: 10%;
+	}
+	
+	.sendTableProper tr th:nth-child(2) {
+		width: 20%;
+	}
+	
+	.sendTableProper tr th:nth-child(3) {
+		width: 30%;
+	}
+	
+	.sendTableProper tr th:nth-child(4) {
+		width: 15%;
+	}
+	
+	.sendTableProper tr th:nth-child(5) {
+		width: 25%;
+	}
+}
+
+/*================================================*/
+
+/* 452px 미만일 때 */
+@media (max-width: 452px) {
+	
+	.messageFromuser {
+		width: 20px;
+		font-size: 10px;
+	}
+	
+	.messageDate {
+		display: none;
+	}
+	
+}
+
+/* 576px 미만일 때 */
+@media (max-width: 576px) {
+	
+	.thead-light {
+		text-align: center;
+	}
+	
+	.messageContent {
+		width: 50px;
+	}
+	
+	.messageText {
+		display: inline-block; 
+		width: 50px; 
+		white-space: nowrap; 
+		overflow: hidden; 
+		text-overflow: ellipsis;
+	}
+	
+	.messageFromuser {
+
+	
+	}
+	
+	.messageDate {
+		display: none;
+	}
+	
+}
+
+/* 768px 미만일 때 */
+@media (max-width: 768px) {
+	
+	.footer table {
+		font-size: 13px;
+	}
+	
+	.text_id, .text_pw {
+		text-align: left;
+	}
+	
+	.accessErrorMsg {
+		margin-top: 10px;
+		font-size: 15px;
+	}
+	
+	.userUpdateLink {
+		font-size: 15px;
+		text-align: left;
+	}
+		
+	.userUpdateContent {
+		margin-top: 10px;
+	}
+	
+	.lsitstyle tr td:nth-child(4) {
+		display: none;
+	}
+	.lsitstyle tr td:nth-child(5) {
+		display: none;
+	}
+	
+	.titleCss {
+		display: inline-block; 
+		width: 150px; 
+		white-space: nowrap; 
+		overflow: hidden; 
+		text-overflow: ellipsis;
+	}
+	
+	.messageText {
+		display: inline-block; 
+		width: 200px; 
+		white-space: nowrap; 
+		overflow: hidden; 
+		text-overflow: ellipsis;
+	}
+	
+	
+	.thead-light {
+		text-align: center;
+	}
+	
+	.messageText {
+		width: 250px;
+		text-align: left;
+	}
+	
+	.messageFromuser {
+	
+	}
+	
+	.messageDate {
+		display: none;
+	}
+	
+}
+
+/* 992px 미만일 때 */
+@media (max-width: 992px) {
+	.col-sm-2 .text_year strong, .col-sm-2 .text_month strong, .col-sm-2 .text_day strong {
+		margin-left: 20px;
+	}	
+	
+	.userUpdateLink {
+		font-size: 15px;
+	}
+	
+	.lsitstyle {
+		font-size: 13px;
+	}
+	
+	.lsitstyle tr td:nth-child(4) {
+		display: none;
+	}
+	
+	.thead-light {
+		text-align: center;
+	}
+	
+	.messageFromuser {
+	
+	}
+	
+	.messageDate {
+		display: none;
+	}
+	
+	
+}
+
+/* 1200px 미만일 때 */
+@media (max-width: 1200px) {
+	.thead-light {
+		text-align: center;
+	}
+	
+	.messageFromuser {
+		width: 100px;
+	}
+	
+	.messageText {
+		text-align: left;
+		display: inline-block; 
+		width: 200px; 
+		white-space: nowrap; 
+		overflow: hidden; 
+		text-overflow: ellipsis;
+	}
+	
+	.sendTableProper tr th:nth-child(1) {
+		width: 10%;
+	}
+	
+	.sendTableProper tr th:nth-child(2) {
+		width: 15%;
+	}
+	
+	.sendTableProper tr th:nth-child(3) {
+		width: 40%;
+	}
+	
+	.sendTableProper tr th:nth-child(4) {
+		width: 15%;
+	}
+	
+	.sendTableProper tr th:nth-child(5) {
+		width: 20%;
+	}
+	
+}

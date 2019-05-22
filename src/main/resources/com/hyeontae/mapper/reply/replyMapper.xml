@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyeontae.mapper.ReplyMapper">
+	
+	<select id="select_replyNum" resultType="integer">
+		select max(rno) from board_reply
+	</select>
+	
+	<select id="totalCount" resultType="integer">
+		select count(rno) from board_reply where num = #{num}
+	</select>
+	
+	<insert id="insert_reply">
+		insert into board_reply (  rno,    num, pos,    ref, depth,    replyer,    reply, replyDate, available) values (
+								#{rno}, #{num},   0, #{ref},     0, #{replyer}, #{reply}, now(), 1);
+	</insert>
+	
+	<insert id="insert_reply_profile">
+		insert into board_reply_profile (rno, num, userid, profile) values (
+ 										#{rno}, #{num}, #{userid}, #{profile});
+	</insert>
+	
+	<select id="read" resultType="com.hyeontae.vo.ReplyVO">
+		select r.rno, r.num, r.pos, r.ref, r.depth, r.replyer, r.reply, r.replyDate, r.available, p.userid, p.profile 
+		from board_reply r, board_reply_profile p
+		where r.rno = p.rno and p.rno = #{rno};
+	</select>
+	
+	<select id="getListWithPaging" resultType="com.hyeontae.vo.ReplyVO">
+		<!-- 
+		<![CDATA[
+			select rno, num, pos, ref, depth, replyer, reply, replyDate, userid, profile, available
+			from (
+				select @rownum:=@rownum+1 as rn, r.rno, r.num, r.pos, r.ref, r.depth, r.replyer, r.reply, r.replyDate, p.userid, p.profile, r.available 
+					from board_reply r, board_reply_profile p
+					where r.rno = p.rno and p.num = #{num} and (@rownum:=0)=0 and @rownum < #{cri.pageNum} * #{cri.amount}
+			) as replyVO where rn > (#{cri.pageNum} - 1) * #{cri.amount}
+			order by ref desc
+		]]>
+	 	-->
+	 	
+	 	select r.rno, r.num, r.pos, r.ref, r.depth, r.replyer, r.reply, r.replyDate, r.available, p.userid, p.profile
+		from board_reply r, board_reply_profile p
+		where r.rno = p.rno and p.num = #{num} order by r.ref desc, r.pos limit #{cri.pageNum}, #{cri.amount};
+	 	
+	</select>
+	
+	<update id="remove_reply">
+		update board_reply set available = 0 where rno = #{rno}
+	</update>
+	
+	<update id="update">
+		update board_reply set reply = #{reply} where rno = #{rno}
+	</update>
+	
+	<update id="replyUpPos">
+		update board_reply set pos = pos + 1 where ref = #{ref} and pos > #{pos}
+	</update>
+
+	<select id="getMaxPos" resultType="int">
+		select count(pos) from board_reply where ref = #{ref} and pos > 0
+	</select>
+	
+	<insert id="insert_replyReply">
+		insert into board_reply (  rno,    num,      pos,    ref,        depth,    replyer,    reply, replyDate, available) values (
+								#{rno}, #{num},   #{pos}, #{ref},     #{depth}, #{replyer}, #{reply}, now(), 1);
+	</insert>
+	
+</mapper>

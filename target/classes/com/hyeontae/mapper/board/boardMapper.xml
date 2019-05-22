@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyeontae.mapper.BoardMapper">
+	
+	<select id="select_boardNum" resultType="integer">
+		select max(num) from board_free
+	</select>
+	
+	<insert id="insert_board">
+		insert into board_free(nickname, title, content, pos, ref, depth, regdate, views, available)
+					 values(#{nickname}, #{title}, #{content}, 0, #{ref}, 0, now(), 0, 1 )
+	</insert>
+	
+	<insert id="insert_board_upload">
+		insert into board_free_upload(num, nickname, filename, filesize) values (#{num}, #{nickname}, #{filename}, #{filesize});
+	</insert>
+	
+	<insert id="insert_board_profile">
+		insert into board_free_profile(num, userid, profile ) values (#{num}, #{userid}, #{profile});
+	</insert>
+
+	<select id="boardList" resultType="com.hyeontae.vo.BoardVO">
+		select f.num, f.nickname, f.title, f.content, f.pos, f.ref, f.depth, f.regdate, f.views, f.available, p.userid, p.profile
+		from board_free f, board_free_profile p
+		where f.num = p.num and f.available = 1 order by f.ref desc, f.pos limit #{pagenum}, #{contentnum}
+	</select>
+		
+	<select id="boardListTitle" resultType="com.hyeontae.vo.BoardVO">
+		select f.num, f.nickname, f.title, f.content, f.pos, f.ref, f.depth, f.regdate, f.views, f.available, p.userid, p.profile
+		from board_free f, board_free_profile p
+		where f.num = p.num and title like concat('%', #{keyword}, '%') and f.available = 1 order by f.ref desc, f.pos limit #{pagenum}, #{contentnum};
+	</select>
+	
+	<select id="boardListContent" resultType="com.hyeontae.vo.BoardVO">
+		select f.num, f.nickname, f.title, f.content, f.pos, f.ref, f.depth, f.regdate, f.views, f.available, p.userid, p.profile
+		from board_free f, board_free_profile p
+		where f.num = p.num and content like concat('%', #{keyword}, '%') and f.available = 1 order by f.ref desc, f.pos limit #{pagenum}, #{contentnum};
+	</select>
+	
+	<select id="boardListNickname" resultType="com.hyeontae.vo.BoardVO">
+		select f.num, f.nickname, f.title, f.content, f.pos, f.ref, f.depth, f.regdate, f.views, f.available, p.userid, p.profile
+		from board_free f, board_free_profile p
+		where f.num = p.num and nickname like concat('%', #{keyword}, '%') and f.available = 1 order by f.ref desc, f.pos limit #{pagenum}, #{contentnum};
+	</select>
+		
+	<select id="boardCount" resultType="int">
+		select count(*) from board_free where available = 1
+	</select>
+	
+	<select id="boardCountTitle" resultType="int">
+		select count(*) from board_free where title like concat('%', #{keyword}, '%') and available = 1
+	</select>
+	<select id="boardCountContent" resultType="int">
+		select count(*) from board_free where content like concat('%', #{keyword}, '%') and available = 1
+	</select>
+	<select id="boardCountNickname" resultType="int">
+		select count(*) from board_free where nickname like concat('%', #{keyword}, '%') and available = 1
+	</select>
+	
+	<select id="uploadCount" resultType="int">
+		select count(*) from board_free_upload where num = #{num}
+	</select>
+	
+	<select id="get" resultType="com.hyeontae.vo.BoardVO">
+		select f.num, f.nickname, f.title, f.content, f.pos, f.ref, f.depth, f.regdate, f.views, f.available, p.userid, p.profile
+		from board_free f, board_free_profile p
+		where f.num = p.num and p.num = #{num}
+	</select>
+	
+	<select id="boardUpload" resultType="com.hyeontae.vo.BoardUploadVO">
+		select num, filename, filesize from board_free_upload where num = ${num}
+	</select>
+	
+	<delete id="deleteFile">
+		delete from board_free_upload where num = #{num} and filename = #{filename}
+	</delete>
+	
+	<update id="update_board">
+		update board_free set title = #{title}, content = #{content} where num = #{num}
+	</update>
+	
+	<update id="delete_board">
+		update board_free set available = 0 where num = #{num}
+	</update>
+	
+	<select id="select_available" resultType="int">
+		select available from board_free where num = #{num}
+	</select>
+	
+	<insert id="insert_reply">
+		insert into board_free (nickname, title, content, pos, ref, depth, regdate, views, available)
+					  values(#{nickname}, #{title}, #{content}, #{pos}, #{ref}, #{depth}, now(), 0, 1 )
+	</insert>
+	
+	<update id="replyUpPos">
+		update board_free set pos = pos + 1 where ref = #{ref} and pos > #{pos}
+	</update>
+
+	<select id="getMaxPos" resultType="int">
+		select count(pos) from board_free where ref = #{ref} and available = 1 and pos > 0
+	</select>
+	
+	<update id="viewsUp">
+		update board_free set views = views + 1 where num = #{num}
+	</update>
+	
+	<select id="indexList" resultType="com.hyeontae.vo.BoardVO">
+		select f.num, f.nickname, f.title, f.content, f.pos, f.ref, f.depth, f.regdate, f.views, f.available, p.userid, p.profile
+		from board_free f, board_free_profile p
+		where f.num = p.num and f.available = 1 and f.pos = 0 order by f.ref desc, f.pos asc limit 0, 3
+	</select>
+	
+</mapper>

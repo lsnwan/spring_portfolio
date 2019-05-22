@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyeontae.mapper.PhotoReplyAndReplyMapper">
+	
+	<select id="selectNum" resultType="integer">
+		select max(r_no) from photo_reply_reply
+	</select>
+	
+	<insert id="insert_reply">
+		insert into photo_reply_reply values(#{num}, #{no}, #{r_no}, #{nickname}, #{content}, now(), 1)
+	</insert>
+	
+	<insert id="insert_Profile">
+		insert into photo_reply_reply_profile values(#{num}, #{no}, #{r_no}, #{userid}, #{profile})
+	</insert>
+	
+</mapper>

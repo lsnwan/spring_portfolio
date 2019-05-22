@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	<bean id="customLoginSuccess" class="com.hyeontae.security.UserLoginSuccessHandler" />
+	<bean id="customLoginFailure" class="com.hyeontae.security.UserLoginFailureHandler" >
+		<property name="loginidname" value="username" />
+		<property name="loginpwdname" value="password"/>
+		<property name="errormsgname" value="ERRORMSG" />
+		<property name="defaultFailureUrl" value="/login?error" />
+	</bean>
+	<bean id="customUserDetailsService" class="com.hyeontae.security.UserAuthenticationService"/>
+	
+	
+	
+	<security:http>
+		
+		<security:intercept-url pattern="/" access="permitAll" />
+		
+		<security:intercept-url pattern="/admin/admin" access="hasRole('ROLE_ADMIN')"/>
+		
+		<security:form-login login-page="/login" 
+			login-processing-url="/login"
+			authentication-success-handler-ref="customLoginSuccess"
+			authentication-failure-handler-ref="customLoginFailure"
+			username-parameter="username"
+			password-parameter="password"/>
+			
+		<security:logout logout-url="/logout" invalidate-session="true" logout-success-url="/"/>
+		
+		<security:session-management>
+			<security:concurrency-control max-sessions="1"
+										  expired-url="/login"
+										  error-if-maximum-exceeded="true"
+										  />
+		</security:session-management>
+		
+		<security:access-denied-handler error-page="/accessError"/>
+		
+		<security:headers>
+			<security:frame-options disabled="true"/>
+		</security:headers>
+		
+	</security:http>
+	
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="customUserDetailsService">
+			<security:password-encoder ref="bcryptPasswordEncoder" hash="bcrypt"/>
+		</security:authentication-provider>
+	</security:authentication-manager>
+	
+</beans>

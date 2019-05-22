@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyeontae.mapper.PhotoMapper">
+	
+	<select id="getPhoto" resultType="com.hyeontae.vo.PhotoVO">
+		select photo.num, photo.nickname, photo.title, photo.content, photo.regdate, photo.views, photo.available, profile.userid, profile.profile, thum.filename
+		from board_photo photo, board_photo_profile profile, board_photo_thum thum 
+		where photo.num = profile.num and profile.num = thum.num and photo.num = #{num}
+	</select>
+		
+</mapper>
