@@ -13,7 +13,7 @@
 	
     <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName" value="org.mariadb.jdbc.Driver"></property>
-		<property name="jdbcUrl" value="jdbc:mariadb://localhost:3306/lsnwan"></property>
+		<property name="jdbcUrl" value="jdbc:mariadb://localhost:3306/root"></property>
 		<property name="username" value="root"></property>
 		<property name="password" value="1234"></property>
 	</bean>
